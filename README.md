@@ -7,6 +7,7 @@ Sistema para gerenciar pacientes, profissionais da saúde, consultas, internaç�
 ## Integrantes
 
 - Guilherme Ferreira Valadares
+- Vinicius Eduardo de Souza Matos Silva
 
 ## Tecnologias
 
