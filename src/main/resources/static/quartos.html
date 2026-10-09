@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quartos | SIH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icone">+</div>
+    <div><strong>SIH</strong><span>Sistema de Informação Hospitalar</span></div>
+  </div>
+  <ul class="menu">
+    <li class="menu-titulo">Visão geral</li>
+    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Dashboard</a></li>
+    <li class="menu-titulo">Cadastros</li>
+    <li><a href="pacientes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8"/><path d="M22 21c0-3-1.5-5-4-5.6"/></svg>Pacientes</a></li>
+    <li><a href="profissionais.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-2"/><circle cx="21" cy="12" r="2"/></svg>Profissionais</a></li>
+    <li><a href="quartos.html" class="ativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg>Quartos</a></li>
+    <li class="menu-titulo">Atendimentos</li>
+    <li><a href="consultas.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Consultas</a></li>
+    <li><a href="internacoes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6"/><path d="M3 13h18v5"/><path d="M21 13a4 4 0 0 0-4-4h-6v4"/><circle cx="7" cy="10" r="2"/></svg>Internações</a></li>
+    <li><a href="historico.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Histórico médico</a></li>
+  </ul>
+  <div class="usuario">
+    <div class="avatar">AD</div>
+    <div>Administrador<small>Recepção central</small></div>
+  </div>
+</aside>
+<div class="principal">
+  <header class="topo">
+    <div class="busca-global"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Buscar paciente, profissional ou CPF..."></div>
+    <div class="topo-data">Quinta-feira, 08 de outubro de 2026</div>
+  </header>
+  <main class="conteudo">
+<div class="migalha">Cadastros / Quartos</div>
+<div class="cabecalho-pagina">
+  <div><h1>Quartos hospitalares</h1><p>Situação e ocupação de cada quarto</p></div>
+  <div class="acoes"><button type="button" class="btn btn-primario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Novo quarto</button></div>
+</div><div class="grade-2" style="grid-template-columns:1fr 360px">
+  <div>
+    <div class="card" style="margin-bottom:16px"><div class="card-cabecalho">
+      <div class="filtros"><select><option>Todos os andares</option><option>1º andar</option><option>2º andar</option><option>3º andar</option><option>4º andar</option></select><select><option>Todas as situações</option><option>Disponível</option><option>Ocupado</option></select></div>
+      <div class="legenda"><span><i style="background:#e3f4ec"></i>Disponível</span><span><i style="background:#fbe9e7"></i>Ocupado (lotado)</span></div>
+    </div></div>
+    <div class="grade-quartos"><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">101</div><div class="quarto-andar">1º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>2 / 4</strong></div><div class="barra media"><span style="width:50%"></span></div><div class="leitos"><div class="leito ocupado">VN</div><div class="leito ocupado">EK</div><div class="leito">livre</div><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">102</div><div class="quarto-andar">1º andar</div></div><span class="selo selo-vermelho">Ocupado</span></div><div class="quarto-info"><span>Ocupação</span><strong>2 / 2</strong></div><div class="barra cheia"><span style="width:100%"></span></div><div class="leitos"><div class="leito ocupado">RS</div><div class="leito ocupado">MC</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">103</div><div class="quarto-andar">1º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>1 / 2</strong></div><div class="barra media"><span style="width:50%"></span></div><div class="leitos"><div class="leito ocupado">FR</div><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">104</div><div class="quarto-andar">1º andar</div></div><span class="selo selo-vermelho">Ocupado</span></div><div class="quarto-info"><span>Ocupação</span><strong>4 / 4</strong></div><div class="barra cheia"><span style="width:100%"></span></div><div class="leitos"><div class="leito ocupado">AM</div><div class="leito ocupado">TG</div><div class="leito ocupado">WP</div><div class="leito ocupado">HO</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">108</div><div class="quarto-andar">1º andar</div></div><span class="selo selo-vermelho">Ocupado</span></div><div class="quarto-info"><span>Ocupação</span><strong>2 / 2</strong></div><div class="barra cheia"><span style="width:100%"></span></div><div class="leitos"><div class="leito ocupado">RC</div><div class="leito ocupado">NB</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">201</div><div class="quarto-andar">2º andar</div></div><span class="selo selo-vermelho">Ocupado</span></div><div class="quarto-info"><span>Ocupação</span><strong>1 / 1</strong></div><div class="barra cheia"><span style="width:100%"></span></div><div class="leitos"><div class="leito ocupado">DQ</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">202</div><div class="quarto-andar">2º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>0 / 1</strong></div><div class="barra"><span style="width:0%"></span></div><div class="leitos"><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">210</div><div class="quarto-andar">2º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>1 / 2</strong></div><div class="barra media"><span style="width:50%"></span></div><div class="leitos"><div class="leito ocupado">LD</div><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">301</div><div class="quarto-andar">3º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>2 / 4</strong></div><div class="barra media"><span style="width:50%"></span></div><div class="leitos"><div class="leito ocupado">KA</div><div class="leito ocupado">MA</div><div class="leito">livre</div><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">302</div><div class="quarto-andar">3º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>3 / 4</strong></div><div class="barra media"><span style="width:75%"></span></div><div class="leitos"><div class="leito ocupado">JS</div><div class="leito ocupado">LV</div><div class="leito ocupado">GC</div><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">305</div><div class="quarto-andar">3º andar</div></div><span class="selo selo-verde">Disponível</span></div><div class="quarto-info"><span>Ocupação</span><strong>1 / 4</strong></div><div class="barra"><span style="width:25%"></span></div><div class="leitos"><div class="leito ocupado">BT</div><div class="leito">livre</div><div class="leito">livre</div><div class="leito">livre</div></div></div><div class="card quarto"><div class="quarto-topo"><div><div class="quarto-numero">401</div><div class="quarto-andar">4º andar</div></div><span class="selo selo-vermelho">Ocupado</span></div><div class="quarto-info"><span>Ocupação</span><strong>1 / 1</strong></div><div class="barra cheia"><span style="width:100%"></span></div><div class="leitos"><div class="leito ocupado">SF</div></div></div></div>
+  </div>
+  <div class="card" style="align-self:start">
+    <div class="card-cabecalho"><h2>Cadastrar quarto</h2></div>
+    <div class="card-corpo"><div class="campos"><div class="campo col-12"><label>Número de identificação <span class="obrigatorio">*</span></label><input type="text" placeholder="Ex.: 105"></div><div class="campo col-6"><label>Andar <span class="obrigatorio">*</span></label><input type="number" placeholder="1"></div><div class="campo col-6"><label>Capacidade máxima <span class="obrigatorio">*</span></label><input type="number" placeholder="2"></div><div class="campo col-12"><label>Situação atual</label><input type="text" value="Disponível" disabled><small>Calculada pelo sistema: vira Ocupado quando a ocupação atinge a capacidade máxima</small></div></div></div>
+    <div class="rodape-form"><button type="button" class="btn btn-secundario">Limpar</button><button type="button" class="btn btn-primario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Salvar quarto</button></div>
+  </div>
+</div>
+  </main>
+</div>
+</body>
+</html>

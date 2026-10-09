@@ -1,0 +1,189 @@
+@startuml diagrama-classes
+title Sistema de Informação Hospitalar — Diagrama de Classes (Modelo de Domínio)
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontSize 12
+skinparam linetype ortho
+skinparam nodesep 60
+skinparam ranksep 70
+skinparam class {
+  BackgroundColor #FFFFFF
+  HeaderBackgroundColor #DCE8F3
+  BorderColor #3D5A80
+  ArrowColor #3D5A80
+}
+skinparam package {
+  BorderColor #3D5A80
+}
+skinparam note {
+  BackgroundColor #FFF8DC
+  BorderColor #C9B458
+}
+
+package model {
+
+  abstract class Pessoa {
+    #id : Long
+    #nome : String
+    #telefone : String
+    #email : String
+  }
+
+  class Paciente {
+    -cpf : String
+    -dataNascimento : LocalDate
+    -endereco : Endereco
+    -consultas : List<Consulta>
+    -internacoes : List<Internacao>
+    +getIdade() : int
+    +adicionarConsulta(c : Consulta) : void
+    +adicionarInternacao(i : Internacao) : void
+    +possuiInternacaoAtiva() : boolean
+    +getHistorico() : HistoricoMedico
+  }
+
+  class Endereco {
+    -logradouro : String
+    -numero : String
+    -complemento : String
+    -bairro : String
+    -cidade : String
+    -uf : String
+    -cep : String
+    +getEnderecoCompleto() : String
+  }
+
+  class ProfissionalSaude {
+    -registroProfissional : String
+    -especialidade : Especialidade
+    -disponibilidades : List<Disponibilidade>
+    -consultas : List<Consulta>
+    -internacoes : List<Internacao>
+    +adicionarDisponibilidade(d : Disponibilidade) : void
+    +adicionarConsulta(c : Consulta) : void
+    +adicionarInternacao(i : Internacao) : void
+    +atendeNoHorario(data : LocalDate, horario : LocalTime) : boolean
+    +possuiConsultaNoHorario(data : LocalDate, horario : LocalTime) : boolean
+    +estaDisponivel(data : LocalDate, horario : LocalTime) : boolean
+  }
+
+  class Disponibilidade {
+    -id : Long
+    -diaSemana : DayOfWeek
+    -horaInicio : LocalTime
+    -horaFim : LocalTime
+    +contem(data : LocalDate, horario : LocalTime) : boolean
+  }
+
+  abstract class Atendimento {
+    #id : Long
+    #paciente : Paciente
+    #profissional : ProfissionalSaude
+    #observacoes : String
+    +registrarObservacao(texto : String) : void
+    +{abstract} getDataReferencia() : LocalDate
+    +{abstract} getResumo() : String
+  }
+
+  class Consulta {
+    -data : LocalDate
+    -horario : LocalTime
+    -motivo : String
+    -status : StatusConsulta
+    +realizar(observacoes : String) : void
+    +cancelar() : void
+    +conflitaCom(data : LocalDate, horario : LocalTime) : boolean
+    +getDataReferencia() : LocalDate
+    +getResumo() : String
+  }
+
+  class Internacao {
+    -quarto : Quarto
+    -dataEntrada : LocalDate
+    -dataPrevistaAlta : LocalDate
+    -dataEfetivaAlta : LocalDate
+    +estaAtiva() : boolean
+    +darAlta(data : LocalDate) : void
+    +getDiasInternado() : long
+    +getDataReferencia() : LocalDate
+    +getResumo() : String
+  }
+
+  class Quarto {
+    -id : Long
+    -numero : String
+    -andar : int
+    -capacidadeMaxima : int
+    -situacao : SituacaoQuarto
+    -internacoes : List<Internacao>
+    +getOcupacaoAtual() : int
+    +temVaga() : boolean
+    +ocupar(i : Internacao) : void
+    +liberar(i : Internacao) : void
+    -atualizarSituacao() : void
+  }
+
+  class HistoricoMedico {
+    -paciente : Paciente
+    +getAtendimentos() : List<Atendimento>
+    +getConsultasRealizadas() : List<Consulta>
+    +getInternacoes() : List<Internacao>
+  }
+
+  enum Especialidade {
+    CLINICA_GERAL
+    CARDIOLOGIA
+    PEDIATRIA
+    ORTOPEDIA
+    NEUROLOGIA
+    DERMATOLOGIA
+    ENFERMAGEM
+  }
+
+  enum StatusConsulta {
+    AGENDADA
+    REALIZADA
+    CANCELADA
+  }
+
+  enum SituacaoQuarto {
+    DISPONIVEL
+    OCUPADO
+  }
+
+  Pessoa <|-- Paciente
+  Pessoa <|-- ProfissionalSaude
+
+  Atendimento <|-- Consulta
+  Atendimento <|-- Internacao
+
+  Paciente "1" *-- "1" Endereco
+  ProfissionalSaude "1" *-- "0..*" Disponibilidade
+
+  Paciente "1" -- "0..*" Consulta : possui >
+  Paciente "1" -- "0..*" Internacao : possui >
+  ProfissionalSaude "1" -- "0..*" Consulta : responsável >
+  ProfissionalSaude "1" -- "0..*" Internacao : responsável >
+  Quarto "1" -- "0..*" Internacao : abriga >
+
+  HistoricoMedico "0..1" --> "1" Paciente : referente a >
+  HistoricoMedico ..> Atendimento : <<usa>>
+
+  ProfissionalSaude --> Especialidade
+  Consulta --> StatusConsulta
+  Quarto --> SituacaoQuarto
+
+  note top of Pessoa
+    Getters e setters omitidos
+    em todas as classes
+  end note
+
+  note top of HistoricoMedico
+    Não é persistido: montado sob demanda
+    a partir das consultas e internações do paciente
+  end note
+}
+
+@enduml

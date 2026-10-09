@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | SIH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icone">+</div>
+    <div><strong>SIH</strong><span>Sistema de Informação Hospitalar</span></div>
+  </div>
+  <ul class="menu">
+    <li class="menu-titulo">Visão geral</li>
+    <li><a href="index.html" class="ativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Dashboard</a></li>
+    <li class="menu-titulo">Cadastros</li>
+    <li><a href="pacientes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8"/><path d="M22 21c0-3-1.5-5-4-5.6"/></svg>Pacientes</a></li>
+    <li><a href="profissionais.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-2"/><circle cx="21" cy="12" r="2"/></svg>Profissionais</a></li>
+    <li><a href="quartos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg>Quartos</a></li>
+    <li class="menu-titulo">Atendimentos</li>
+    <li><a href="consultas.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Consultas</a></li>
+    <li><a href="internacoes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6"/><path d="M3 13h18v5"/><path d="M21 13a4 4 0 0 0-4-4h-6v4"/><circle cx="7" cy="10" r="2"/></svg>Internações</a></li>
+    <li><a href="historico.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Histórico médico</a></li>
+  </ul>
+  <div class="usuario">
+    <div class="avatar">AD</div>
+    <div>Administrador<small>Recepção central</small></div>
+  </div>
+</aside>
+<div class="principal">
+  <header class="topo">
+    <div class="busca-global"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Buscar paciente, profissional ou CPF..."></div>
+    <div class="topo-data">Quinta-feira, 08 de outubro de 2026</div>
+  </header>
+  <main class="conteudo">
+<div class="migalha">Início</div>
+<div class="cabecalho-pagina">
+  <div><h1>Dashboard</h1><p>Resumo das atividades do hospital hoje</p></div>
+  <div class="acoes"><a class="btn btn-secundario" href="consulta-form.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Agendar consulta</a><a class="btn btn-primario" href="internacao-form.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Nova internação</a></div>
+</div><div class="grade-stats"><div class="card stat"><div class="stat-icone fundo-azul"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8"/><path d="M22 21c0-3-1.5-5-4-5.6"/></svg></div><div><div class="stat-valor">1.248</div><div class="stat-rotulo">Pacientes cadastrados</div></div></div><div class="card stat"><div class="stat-icone fundo-verde"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div><div><div class="stat-valor">37</div><div class="stat-rotulo">Consultas hoje</div></div></div><div class="card stat"><div class="stat-icone fundo-amarelo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6"/><path d="M3 13h18v5"/><path d="M21 13a4 4 0 0 0-4-4h-6v4"/><circle cx="7" cy="10" r="2"/></svg></div><div><div class="stat-valor">34</div><div class="stat-rotulo">Internações ativas</div></div></div><div class="card stat"><div class="stat-icone fundo-vermelho"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg></div><div><div class="stat-valor">14 / 48</div><div class="stat-rotulo">Leitos livres</div></div></div></div><div class="grade-2">
+  <div class="card">
+    <div class="card-cabecalho"><h2>Consultas de hoje</h2><a href="consultas.html">Ver agenda completa →</a></div>
+    <div class="tabela-wrap"><table class="tabela"><thead><tr><th>Horário</th><th>Paciente</th><th>Profissional</th><th>Status</th></tr></thead><tbody><tr><td><strong>08:00</strong></td><td>Carlos Eduardo Lima</td><td>Dra. Helena Duarte<br><small class="texto-suave">Cardiologia</small></td><td><span class="selo selo-verde">Realizada</span></td></tr><tr><td><strong>08:30</strong></td><td>Marina Costa Ribeiro</td><td>Dr. Marcos Vinícius Prado<br><small class="texto-suave">Clínica Geral</small></td><td><span class="selo selo-verde">Realizada</span></td></tr><tr><td><strong>10:00</strong></td><td>Fernanda Rocha Alves</td><td>Dra. Helena Duarte<br><small class="texto-suave">Cardiologia</small></td><td><span class="selo selo-amarelo">Agendada</span></td></tr><tr><td><strong>10:30</strong></td><td>Thiago Henrique Gomes</td><td>Dr. Marcos Vinícius Prado<br><small class="texto-suave">Clínica Geral</small></td><td><span class="selo selo-amarelo">Agendada</span></td></tr><tr><td><strong>11:00</strong></td><td>Ricardo Souza Pinto</td><td>Dra. Camila Fontes<br><small class="texto-suave">Neurologia</small></td><td><span class="selo selo-amarelo">Agendada</span></td></tr><tr><td><strong>13:30</strong></td><td>João Pedro Santos</td><td>Dra. Patrícia Nogueira<br><small class="texto-suave">Pediatria</small></td><td><span class="selo selo-vermelho">Cancelada</span></td></tr></tbody></table></div>
+  </div>
+  <div>
+    <div class="card">
+      <div class="card-cabecalho"><h2>Ocupação por andar</h2><a href="quartos.html">Quartos →</a></div>
+      <ul class="lista-simples"><li style="display:block"><div style="display:flex;justify-content:space-between"><span>1º andar · Enfermaria</span><strong>14/16</strong></div><div class="barra cheia"><span style="width:87%"></span></div></li><li style="display:block"><div style="display:flex;justify-content:space-between"><span>2º andar · Apartamentos</span><strong>9/12</strong></div><div class="barra media"><span style="width:75%"></span></div></li><li style="display:block"><div style="display:flex;justify-content:space-between"><span>3º andar · Pediatria</span><strong>6/10</strong></div><div class="barra media"><span style="width:60%"></span></div></li><li style="display:block"><div style="display:flex;justify-content:space-between"><span>4º andar · UTI</span><strong>5/10</strong></div><div class="barra"><span style="width:50%"></span></div></li></ul>
+    </div>
+    <div class="card mt-20">
+      <div class="card-cabecalho"><h2>Altas previstas</h2></div>
+      <ul class="lista-simples"><li><div class="pessoa"><div class="avatar">AM</div><div>Ana Beatriz Moreira<small>Quarto 104 · alta prevista hoje</small></div></div><a href="internacoes.html" class="btn btn-secundario btn-pequeno">Ver</a></li><li><div class="pessoa"><div class="avatar">LD</div><div>Luciana Martins Dias<small>Quarto 210 · alta prevista amanhã</small></div></div><a href="internacoes.html" class="btn btn-secundario btn-pequeno">Ver</a></li><li><div class="pessoa"><div class="avatar">JS</div><div>João Pedro Santos<small>Quarto 302 · alta prevista 10/10</small></div></div><a href="internacoes.html" class="btn btn-secundario btn-pequeno">Ver</a></li></ul>
+    </div>
+  </div>
+</div>
+  </main>
+</div>
+</body>
+</html>
