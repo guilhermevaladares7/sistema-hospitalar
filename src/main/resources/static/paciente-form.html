@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastrar paciente | SIH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icone">+</div>
+    <div><strong>SIH</strong><span>Sistema de Informação Hospitalar</span></div>
+  </div>
+  <ul class="menu">
+    <li class="menu-titulo">Visão geral</li>
+    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Dashboard</a></li>
+    <li class="menu-titulo">Cadastros</li>
+    <li><a href="pacientes.html" class="ativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8"/><path d="M22 21c0-3-1.5-5-4-5.6"/></svg>Pacientes</a></li>
+    <li><a href="profissionais.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-2"/><circle cx="21" cy="12" r="2"/></svg>Profissionais</a></li>
+    <li><a href="quartos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg>Quartos</a></li>
+    <li class="menu-titulo">Atendimentos</li>
+    <li><a href="consultas.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Consultas</a></li>
+    <li><a href="internacoes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6"/><path d="M3 13h18v5"/><path d="M21 13a4 4 0 0 0-4-4h-6v4"/><circle cx="7" cy="10" r="2"/></svg>Internações</a></li>
+    <li><a href="historico.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Histórico médico</a></li>
+  </ul>
+  <div class="usuario">
+    <div class="avatar">AD</div>
+    <div>Administrador<small>Recepção central</small></div>
+  </div>
+</aside>
+<div class="principal">
+  <header class="topo">
+    <div class="busca-global"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Buscar paciente, profissional ou CPF..."></div>
+    <div class="topo-data">Quinta-feira, 08 de outubro de 2026</div>
+  </header>
+  <main class="conteudo">
+<div class="migalha"><a href="pacientes.html">Pacientes</a> / Novo paciente</div>
+<div class="cabecalho-pagina">
+  <div><h1>Cadastrar paciente</h1><p>Preencha os dados do paciente. Campos com * são obrigatórios.</p></div>
+  <div class="acoes"></div>
+</div><div class="card">
+  <div class="card-corpo">
+    <div class="form-secao"><h3>Dados pessoais</h3><div class="campos"><div class="campo col-8"><label>Nome completo <span class="obrigatorio">*</span></label><input type="text" placeholder="Ex.: Maria da Silva Souza"></div><div class="campo col-4"><label>CPF <span class="obrigatorio">*</span></label><input type="text" placeholder="000.000.000-00"><small>Não pode haver dois pacientes com o mesmo CPF</small></div><div class="campo col-4"><label>Data de nascimento <span class="obrigatorio">*</span></label><input type="date" placeholder=""></div><div class="campo col-4"><label>Telefone <span class="obrigatorio">*</span></label><input type="tel" placeholder="(31) 90000-0000"></div><div class="campo col-4"><label>E-mail para contato <span class="obrigatorio">*</span></label><input type="email" placeholder="nome@email.com"></div></div></div>
+    <div class="form-secao"><h3>Endereço</h3><div class="campos"><div class="campo col-3"><label>CEP <span class="obrigatorio">*</span></label><input type="text" placeholder="00000-000"></div><div class="campo col-7"><label>Logradouro <span class="obrigatorio">*</span></label><input type="text" placeholder="Rua, avenida..."></div><div class="campo col-2"><label>Número <span class="obrigatorio">*</span></label><input type="text" placeholder="Nº"></div><div class="campo col-4"><label>Complemento</label><input type="text" placeholder="Apto, bloco..."></div><div class="campo col-4"><label>Bairro <span class="obrigatorio">*</span></label><input type="text" placeholder="Bairro"></div><div class="campo col-3"><label>Cidade <span class="obrigatorio">*</span></label><input type="text" placeholder="Cidade"></div><div class="campo col-1"><label>UF</label><select><option>MG</option><option>SP</option><option>RJ</option><option>ES</option><option>BA</option><option>GO</option></select></div></div></div>
+  </div>
+  <div class="rodape-form"><a class="btn btn-secundario" href="pacientes.html">Cancelar</a><button type="button" class="btn btn-primario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>Salvar paciente</button></div>
+</div>
+  </main>
+</div>
+</body>
+</html>

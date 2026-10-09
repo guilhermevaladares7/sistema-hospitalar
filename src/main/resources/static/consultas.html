@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consultas | SIH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icone">+</div>
+    <div><strong>SIH</strong><span>Sistema de Informação Hospitalar</span></div>
+  </div>
+  <ul class="menu">
+    <li class="menu-titulo">Visão geral</li>
+    <li><a href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>Dashboard</a></li>
+    <li class="menu-titulo">Cadastros</li>
+    <li><a href="pacientes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8"/><path d="M22 21c0-3-1.5-5-4-5.6"/></svg>Pacientes</a></li>
+    <li><a href="profissionais.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a5 5 0 0 0 10 0V3"/><path d="M11 14v2a5 5 0 0 0 10 0v-2"/><circle cx="21" cy="12" r="2"/></svg>Profissionais</a></li>
+    <li><a href="quartos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1"/><circle cx="15" cy="12" r="1"/></svg>Quartos</a></li>
+    <li class="menu-titulo">Atendimentos</li>
+    <li><a href="consultas.html" class="ativo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>Consultas</a></li>
+    <li><a href="internacoes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18V6"/><path d="M3 13h18v5"/><path d="M21 13a4 4 0 0 0-4-4h-6v4"/><circle cx="7" cy="10" r="2"/></svg>Internações</a></li>
+    <li><a href="historico.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Histórico médico</a></li>
+  </ul>
+  <div class="usuario">
+    <div class="avatar">AD</div>
+    <div>Administrador<small>Recepção central</small></div>
+  </div>
+</aside>
+<div class="principal">
+  <header class="topo">
+    <div class="busca-global"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" placeholder="Buscar paciente, profissional ou CPF..."></div>
+    <div class="topo-data">Quinta-feira, 08 de outubro de 2026</div>
+  </header>
+  <main class="conteudo">
+<div class="migalha">Atendimentos / Consultas</div>
+<div class="cabecalho-pagina">
+  <div><h1>Consultas</h1><p>Agenda de consultas de todos os profissionais</p></div>
+  <div class="acoes"><a class="btn btn-primario" href="consulta-form.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Agendar consulta</a></div>
+</div><div class="abas"><a href="#">Hoje</a><a href="#" class="ativo">Próximos 7 dias</a><a href="#">Todas</a></div>
+<div class="card">
+  <div class="card-cabecalho">
+    <div class="filtros">
+      <input type="date" value="2026-10-08">
+      <select><option>Todos os profissionais</option><option>Dra. Helena Duarte</option><option>Dr. Marcos Vinícius Prado</option><option>Dra. Patrícia Nogueira</option><option>Dr. Rafael Teixeira</option><option>Dra. Camila Fontes</option><option>Enf. Bruno Carvalho</option></select>
+      <select><option>Todos os status</option><option>Agendada</option><option>Realizada</option><option>Cancelada</option></select>
+    </div>
+  </div>
+  <div class="tabela-wrap"><table class="tabela"><thead><tr><th>Data / hora</th><th>Paciente</th><th>Profissional</th><th>Motivo</th><th>Status</th><th>Ações</th></tr></thead><tbody><tr><td><strong>08/10/2026</strong><br><small class="texto-suave">08:00</small></td><td>Carlos Eduardo Lima</td><td>Dra. Helena Duarte</td><td>Dor no peito ao esforço</td><td><span class="selo selo-verde">Realizada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-secundario btn-pequeno">Detalhes</button></div></td></tr><tr><td><strong>08/10/2026</strong><br><small class="texto-suave">08:30</small></td><td>Marina Costa Ribeiro</td><td>Dr. Marcos Vinícius Prado</td><td>Check-up anual</td><td><span class="selo selo-verde">Realizada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-secundario btn-pequeno">Detalhes</button></div></td></tr><tr><td><strong>08/10/2026</strong><br><small class="texto-suave">10:00</small></td><td>Fernanda Rocha Alves</td><td>Dra. Helena Duarte</td><td>Palpitações</td><td><span class="selo selo-amarelo">Agendada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-sucesso btn-pequeno">Realizar</button><button type="button" class="btn btn-secundario btn-pequeno">Cancelar</button></div></td></tr><tr><td><strong>08/10/2026</strong><br><small class="texto-suave">10:30</small></td><td>Thiago Henrique Gomes</td><td>Dr. Marcos Vinícius Prado</td><td>Febre há 3 dias</td><td><span class="selo selo-amarelo">Agendada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-sucesso btn-pequeno">Realizar</button><button type="button" class="btn btn-secundario btn-pequeno">Cancelar</button></div></td></tr><tr><td><strong>08/10/2026</strong><br><small class="texto-suave">11:00</small></td><td>Ricardo Souza Pinto</td><td>Dra. Camila Fontes</td><td>Enxaqueca recorrente</td><td><span class="selo selo-amarelo">Agendada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-sucesso btn-pequeno">Realizar</button><button type="button" class="btn btn-secundario btn-pequeno">Cancelar</button></div></td></tr><tr><td><strong>08/10/2026</strong><br><small class="texto-suave">13:30</small></td><td>João Pedro Santos</td><td>Dra. Patrícia Nogueira</td><td>Retorno pediátrico</td><td><span class="selo selo-vermelho">Cancelada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-secundario btn-pequeno">Detalhes</button></div></td></tr><tr><td><strong>09/10/2026</strong><br><small class="texto-suave">11:00</small></td><td>Luciana Martins Dias</td><td>Dra. Helena Duarte</td><td>Acompanhamento cardíaco</td><td><span class="selo selo-amarelo">Agendada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-sucesso btn-pequeno">Realizar</button><button type="button" class="btn btn-secundario btn-pequeno">Cancelar</button></div></td></tr><tr><td><strong>14/10/2026</strong><br><small class="texto-suave">14:00</small></td><td>Ana Beatriz Moreira</td><td>Dr. Rafael Teixeira</td><td>Avaliação pós-cirúrgica</td><td><span class="selo selo-amarelo">Agendada</span></td><td><div class="acoes-linha"><button type="button" class="btn btn-sucesso btn-pequeno">Realizar</button><button type="button" class="btn btn-secundario btn-pequeno">Cancelar</button></div></td></tr></tbody></table></div>
+  <div class="paginacao"><span>Mostrando 1–8 de 186 registros</span><div><button type="button">‹</button><button type="button" class="atual">1</button><button type="button">2</button><button type="button">3</button><button type="button">›</button></div></div>
+</div>
+  </main>
+</div>
+</body>
+</html>
