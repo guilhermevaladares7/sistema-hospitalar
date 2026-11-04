@@ -16,6 +16,8 @@ public class HistoricoMedico {
 		List<Atendimento> atendimentos = new ArrayList<>();
 		atendimentos.addAll(paciente.getConsultas());
 		atendimentos.addAll(paciente.getInternacoes());
+		atendimentos.addAll(paciente.getAtendimentosEmergencia());
+		atendimentos.addAll(paciente.getProcedimentos());
 		atendimentos.sort(Comparator.comparing(Atendimento::getDataReferencia).reversed());
 		return atendimentos;
 	}

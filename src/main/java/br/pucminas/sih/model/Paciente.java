@@ -28,6 +28,12 @@ public class Paciente extends Pessoa {
 	@OneToMany(mappedBy = "paciente")
 	private List<Internacao> internacoes = new ArrayList<>();
 
+	@OneToMany(mappedBy = "paciente")
+	private List<AtendimentoEmergencia> atendimentosEmergencia = new ArrayList<>();
+
+	@OneToMany(mappedBy = "paciente")
+	private List<ProcedimentoCirurgico> procedimentos = new ArrayList<>();
+
 	protected Paciente() {
 	}
 
@@ -51,6 +57,14 @@ public class Paciente extends Pessoa {
 			throw new RegraNegocioException("O paciente já possui uma internação ativa.");
 		}
 		internacoes.add(internacao);
+	}
+
+	public void adicionarAtendimentoEmergencia(AtendimentoEmergencia atendimento) {
+		atendimentosEmergencia.add(atendimento);
+	}
+
+	public void adicionarProcedimento(ProcedimentoCirurgico procedimento) {
+		procedimentos.add(procedimento);
 	}
 
 	public boolean possuiInternacaoAtiva() {
@@ -92,6 +106,14 @@ public class Paciente extends Pessoa {
 
 	public List<Internacao> getInternacoes() {
 		return internacoes;
+	}
+
+	public List<AtendimentoEmergencia> getAtendimentosEmergencia() {
+		return atendimentosEmergencia;
+	}
+
+	public List<ProcedimentoCirurgico> getProcedimentos() {
+		return procedimentos;
 	}
 
 }

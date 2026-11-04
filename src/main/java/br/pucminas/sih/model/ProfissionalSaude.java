@@ -53,6 +53,27 @@ public abstract class ProfissionalSaude extends Pessoa {
 		return false;
 	}
 
+	public boolean realizaProcedimentoCirurgico() {
+		return false;
+	}
+
+	public boolean possuiOutroProcedimentoNoHorario(ProcedimentoCirurgico procedimento) {
+		return false;
+	}
+
+	public Encaminhamento encaminhar(ConsultaRotina consulta, Especialidade especialidadeDestino, String motivo, LocalDate data) {
+		if (!podeEncaminhar()) {
+			throw new RegraNegocioException("Somente um clínico geral pode encaminhar pacientes.");
+		}
+		if (consulta.getProfissional() != this) {
+			throw new RegraNegocioException("O clínico só pode encaminhar a partir das suas próprias consultas.");
+		}
+		if (consulta.getSituacao() != SituacaoConsulta.CONCLUIDA) {
+			throw new RegraNegocioException("Só é possível encaminhar a partir de uma consulta de rotina concluída.");
+		}
+		return new Encaminhamento(consulta, this, especialidadeDestino, motivo, data);
+	}
+
 	public void adicionarDisponibilidade(Disponibilidade disponibilidade) {
 		disponibilidades.add(disponibilidade);
 	}
