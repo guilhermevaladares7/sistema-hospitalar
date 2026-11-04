@@ -13,7 +13,7 @@ class ProfissionalSaudeTest {
 
 	@Test
 	void atendeSomenteDentroDaDisponibilidade() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
 
 		assertTrue(helena.atendeNoHorario(Fixtures.QUARTA, LocalTime.of(8, 0)));
 		assertTrue(helena.atendeNoHorario(Fixtures.QUARTA, LocalTime.of(13, 30)));
@@ -24,12 +24,12 @@ class ProfissionalSaudeTest {
 
 	@Test
 	void naoPermiteDuasConsultasNoMesmoHorario() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
 		Paciente carlos = Fixtures.paciente("Carlos Eduardo Lima", "234.567.890-11");
 
-		helena.adicionarConsulta(new Consulta(ana, helena, Fixtures.QUARTA, LocalTime.of(10, 30), "Palpitações"));
-		Consulta mesmoHorario = new Consulta(carlos, helena, Fixtures.QUARTA, LocalTime.of(10, 30), "Check-up");
+		helena.adicionarConsulta(Fixtures.cardiologia(ana, helena, Fixtures.QUARTA, LocalTime.of(10, 30)));
+		ConsultaEspecializada mesmoHorario = Fixtures.cardiologia(carlos, helena, Fixtures.QUARTA, LocalTime.of(10, 30));
 
 		assertFalse(helena.estaDisponivel(Fixtures.QUARTA, LocalTime.of(10, 30)));
 		assertThrows(RegraNegocioException.class, () -> helena.adicionarConsulta(mesmoHorario));
@@ -38,9 +38,9 @@ class ProfissionalSaudeTest {
 
 	@Test
 	void horarioDeConsultaCanceladaFicaLivreDeNovo() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
-		Consulta consulta = new Consulta(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0), "Retorno");
+		ConsultaEspecializada consulta = Fixtures.cardiologia(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0));
 		helena.adicionarConsulta(consulta);
 
 		consulta.cancelar();
@@ -49,12 +49,37 @@ class ProfissionalSaudeTest {
 	}
 
 	@Test
-	void naoAgendaForaDaDisponibilidade() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
+	void horarioDeNaoComparecimentoFicaLivreDeNovo() {
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
-		Consulta naQuinta = new Consulta(ana, helena, Fixtures.QUINTA, LocalTime.of(9, 0), "Retorno");
+		ConsultaEspecializada consulta = Fixtures.cardiologia(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0));
+		helena.adicionarConsulta(consulta);
+
+		consulta.registrarNaoComparecimento();
+
+		assertTrue(helena.estaDisponivel(Fixtures.QUARTA, LocalTime.of(9, 0)));
+	}
+
+	@Test
+	void naoAgendaForaDaDisponibilidade() {
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
+		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
+		ConsultaEspecializada naQuinta = Fixtures.cardiologia(ana, helena, Fixtures.QUINTA, LocalTime.of(9, 0));
 
 		assertThrows(RegraNegocioException.class, () -> helena.adicionarConsulta(naQuinta));
+	}
+
+	@Test
+	void naoAceitaConsultaDeOutroProfissionalNemRepetida() {
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
+		Especialista outra = Fixtures.cardiologistaDeQuarta();
+		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
+		ConsultaEspecializada consulta = Fixtures.cardiologia(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0));
+
+		assertThrows(RegraNegocioException.class, () -> outra.adicionarConsulta(consulta));
+		helena.adicionarConsulta(consulta);
+		assertThrows(RegraNegocioException.class, () -> helena.adicionarConsulta(consulta));
+		assertEquals(1, helena.getConsultas().size());
 	}
 
 }

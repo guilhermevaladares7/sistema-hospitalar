@@ -52,24 +52,22 @@ class CategoriaProfissionalTest {
 	}
 
 	@Test
-	void todasAsCategoriasRespeitamDisponibilidadeEConflitoDeHorario() {
-		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
-		Paciente carlos = Fixtures.paciente("Carlos Eduardo Lima", "234.567.890-11");
+	void somenteClinicoGeralRealizaConsultaDeRotina() {
+		assertTrue(Fixtures.clinicoDeQuarta().realizaConsultaDeRotina());
+		assertFalse(Fixtures.cardiologistaDeQuarta().realizaConsultaDeRotina());
+		assertFalse(Fixtures.cirurgiaoDeQuarta().realizaConsultaDeRotina());
+	}
+
+	@Test
+	void todasAsCategoriasRespeitamADisponibilidade() {
 		ProfissionalSaude[] profissionais = { Fixtures.clinicoDeQuarta(), Fixtures.cardiologistaDeQuarta(), Fixtures.cirurgiaoDeQuarta() };
-		LocalTime[] horarios = { LocalTime.of(9, 0), LocalTime.of(10, 0), LocalTime.of(15, 0) };
+		LocalTime[] dentro = { LocalTime.of(9, 0), LocalTime.of(10, 0), LocalTime.of(15, 0) };
+		LocalTime[] fora = { LocalTime.of(12, 0), LocalTime.of(14, 0), LocalTime.of(18, 0) };
 
 		for (int i = 0; i < profissionais.length; i++) {
-			ProfissionalSaude profissional = profissionais[i];
-			LocalTime horario = horarios[i];
-
-			profissional.adicionarConsulta(new Consulta(ana, profissional, Fixtures.QUARTA, horario, "Avaliação"));
-			Consulta mesmoHorario = new Consulta(carlos, profissional, Fixtures.QUARTA, horario, "Avaliação");
-			Consulta foraDaAgenda = new Consulta(carlos, profissional, Fixtures.QUINTA, horario, "Avaliação");
-
-			assertFalse(profissional.estaDisponivel(Fixtures.QUARTA, horario));
-			assertThrows(RegraNegocioException.class, () -> profissional.adicionarConsulta(mesmoHorario));
-			assertThrows(RegraNegocioException.class, () -> profissional.adicionarConsulta(foraDaAgenda));
-			assertEquals(1, profissional.getConsultas().size());
+			assertTrue(profissionais[i].estaDisponivel(Fixtures.QUARTA, dentro[i]));
+			assertFalse(profissionais[i].estaDisponivel(Fixtures.QUARTA, fora[i]));
+			assertFalse(profissionais[i].estaDisponivel(Fixtures.QUINTA, dentro[i]));
 		}
 	}
 

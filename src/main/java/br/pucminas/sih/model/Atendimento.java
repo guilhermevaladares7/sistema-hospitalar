@@ -43,6 +43,8 @@ public abstract class Atendimento {
 		}
 	}
 
+	public abstract void validarRealizacao();
+
 	public abstract LocalDate getDataReferencia();
 
 	public abstract String getResumo();

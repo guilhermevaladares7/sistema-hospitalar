@@ -39,6 +39,16 @@ public class Internacao extends Atendimento {
 		this.dataPrevistaAlta = dataPrevistaAlta;
 	}
 
+	@Override
+	public void validarRealizacao() {
+		if (paciente.possuiInternacaoAtiva()) {
+			throw new RegraNegocioException("O paciente já possui uma internação ativa.");
+		}
+		if (!quarto.temVaga()) {
+			throw new RegraNegocioException("O quarto " + quarto.getNumero() + " já atingiu a capacidade máxima.");
+		}
+	}
+
 	public boolean estaAtiva() {
 		if (dataEfetivaAlta == null) {
 			return true;

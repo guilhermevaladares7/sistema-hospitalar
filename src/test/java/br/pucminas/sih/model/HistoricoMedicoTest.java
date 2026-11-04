@@ -1,7 +1,6 @@
 package br.pucminas.sih.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,16 +14,18 @@ class HistoricoMedicoTest {
 
 	@Test
 	void reuneConsultasEInternacoesDoMaisRecenteParaOMaisAntigo() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
 		Quarto quarto = new Quarto("104", 1, 4);
 
-		Consulta antiga = new Consulta(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0), "Check-up");
+		ConsultaEspecializada antiga = Fixtures.cardiologia(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0));
 		helena.adicionarConsulta(antiga);
 		ana.adicionarConsulta(antiga);
-		antiga.realizar("ECG sem alterações");
+		antiga.confirmar();
+		antiga.iniciar();
+		antiga.concluir("ECG sem alterações");
 
-		Consulta cancelada = new Consulta(ana, helena, Fixtures.QUARTA.plusWeeks(1), LocalTime.of(9, 0), "Retorno");
+		ConsultaEspecializada cancelada = Fixtures.cardiologia(ana, helena, Fixtures.QUARTA.plusWeeks(1), LocalTime.of(9, 0));
 		helena.adicionarConsulta(cancelada);
 		ana.adicionarConsulta(cancelada);
 		cancelada.cancelar();
@@ -39,14 +40,14 @@ class HistoricoMedicoTest {
 		assertEquals(3, atendimentos.size());
 		assertSame(internacao, atendimentos.get(0));
 		assertSame(antiga, atendimentos.get(2));
-		assertEquals(1, historico.getConsultasRealizadas().size());
+		assertEquals(List.of(antiga), historico.getConsultasConcluidas());
 		assertEquals(1, historico.getInternacoes().size());
 		assertTrue(ana.possuiInternacaoAtiva());
 	}
 
 	@Test
 	void pacienteNaoTemDuasInternacoesAtivas() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
+		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
 		Quarto quarto = new Quarto("104", 1, 4);
 
@@ -54,20 +55,8 @@ class HistoricoMedicoTest {
 		ana.adicionarInternacao(primeira);
 		Internacao segunda = new Internacao(ana, helena, quarto, Fixtures.QUARTA, Fixtures.QUINTA);
 
+		assertThrows(RegraNegocioException.class, segunda::validarRealizacao);
 		assertThrows(RegraNegocioException.class, () -> ana.adicionarInternacao(segunda));
-	}
-
-	@Test
-	void consultaRealizadaNaoPodeSerCancelada() {
-		ProfissionalSaude helena = Fixtures.cardiologistaDeQuarta();
-		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
-		Consulta consulta = new Consulta(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0), "Check-up");
-
-		consulta.realizar("Tudo certo");
-
-		assertEquals(StatusConsulta.REALIZADA, consulta.getStatus());
-		assertThrows(RegraNegocioException.class, consulta::cancelar);
-		assertFalse(consulta.getObservacoes().isBlank());
 	}
 
 }

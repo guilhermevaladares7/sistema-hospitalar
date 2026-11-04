@@ -52,6 +52,15 @@ class QuartoTest {
 	}
 
 	@Test
+	void internacaoNaoPodeSerRealizadaEmQuartoLotado() {
+		Quarto quarto = new Quarto("202", 2, 1);
+		internar(Fixtures.paciente("Ana", "1"), quarto);
+		Internacao outra = new Internacao(Fixtures.paciente("Carlos", "2"), Fixtures.cardiologistaDeQuarta(), quarto, Fixtures.QUARTA, Fixtures.QUINTA);
+
+		assertThrows(RegraNegocioException.class, outra::validarRealizacao);
+	}
+
+	@Test
 	void naoCriaQuartoSemCapacidade() {
 		assertThrows(RegraNegocioException.class, () -> new Quarto("999", 1, 0));
 	}

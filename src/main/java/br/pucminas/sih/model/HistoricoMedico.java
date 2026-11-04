@@ -20,14 +20,14 @@ public class HistoricoMedico {
 		return atendimentos;
 	}
 
-	public List<Consulta> getConsultasRealizadas() {
-		List<Consulta> realizadas = new ArrayList<>();
+	public List<Consulta> getConsultasConcluidas() {
+		List<Consulta> concluidas = new ArrayList<>();
 		for (Consulta consulta : paciente.getConsultas()) {
-			if (consulta.getStatus() == StatusConsulta.REALIZADA) {
-				realizadas.add(consulta);
+			if (consulta.getSituacao() == SituacaoConsulta.CONCLUIDA) {
+				concluidas.add(consulta);
 			}
 		}
-		return realizadas;
+		return concluidas;
 	}
 
 	public List<Internacao> getInternacoes() {

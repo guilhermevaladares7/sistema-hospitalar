@@ -19,4 +19,9 @@ public class ClinicoGeral extends ProfissionalSaude {
 		return true;
 	}
 
+	@Override
+	public boolean realizaConsultaDeRotina() {
+		return true;
+	}
+
 }

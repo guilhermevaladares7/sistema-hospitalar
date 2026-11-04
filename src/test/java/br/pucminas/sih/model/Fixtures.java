@@ -26,6 +26,14 @@ class Fixtures {
 		return profissional;
 	}
 
+	static ConsultaRotina rotina(Paciente paciente, ProfissionalSaude profissional, LocalDate data, LocalTime horario) {
+		return new ConsultaRotina(paciente, profissional, data, horario, "Check-up");
+	}
+
+	static ConsultaEspecializada cardiologia(Paciente paciente, ProfissionalSaude profissional, LocalDate data, LocalTime horario) {
+		return new ConsultaEspecializada(paciente, profissional, Especialidade.CARDIOLOGIA, data, horario, "Palpitações");
+	}
+
 	static Cirurgiao cirurgiaoDeQuarta() {
 		Cirurgiao profissional = new Cirurgiao("Dr. Marcos Vinícius Prado", "CRM-MG 51.334", AreaCirurgica.ORTOPEDICA, "(31) 3290-1003", "marcos.prado@sih.com.br");
 		profissional.adicionarDisponibilidade(new Disponibilidade(DayOfWeek.WEDNESDAY, LocalTime.of(13, 0), LocalTime.of(18, 0)));

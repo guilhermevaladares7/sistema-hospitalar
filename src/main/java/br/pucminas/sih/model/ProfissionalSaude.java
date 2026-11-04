@@ -49,14 +49,22 @@ public abstract class ProfissionalSaude extends Pessoa {
 		return false;
 	}
 
+	public boolean realizaConsultaDeRotina() {
+		return false;
+	}
+
 	public void adicionarDisponibilidade(Disponibilidade disponibilidade) {
 		disponibilidades.add(disponibilidade);
 	}
 
 	public void adicionarConsulta(Consulta consulta) {
-		if (!estaDisponivel(consulta.getData(), consulta.getHorario())) {
-			throw new RegraNegocioException("O profissional não está disponível nesse dia e horário.");
+		if (consulta.getProfissional() != this) {
+			throw new RegraNegocioException("Essa consulta é de outro profissional.");
 		}
+		if (consultas.contains(consulta)) {
+			throw new RegraNegocioException("Essa consulta já está na agenda do profissional.");
+		}
+		consulta.validarRealizacao();
 		consultas.add(consulta);
 	}
 
@@ -76,6 +84,15 @@ public abstract class ProfissionalSaude extends Pessoa {
 	public boolean possuiConsultaNoHorario(LocalDate data, LocalTime horario) {
 		for (Consulta consulta : consultas) {
 			if (consulta.conflitaCom(data, horario)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean possuiOutraConsultaNoHorario(Consulta consulta) {
+		for (Consulta outra : consultas) {
+			if (outra != consulta && outra.conflitaCom(consulta.getData(), consulta.getHorario())) {
 				return true;
 			}
 		}
