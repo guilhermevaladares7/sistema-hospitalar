@@ -34,6 +34,11 @@ public class Enfermaria extends Quarto {
 	}
 
 	@Override
+	public TipoQuarto getTipo() {
+		return TipoQuarto.ENFERMARIA;
+	}
+
+	@Override
 	public BigDecimal calcularDiaria(boolean comAcompanhante) {
 		validarAcompanhante(comAcompanhante);
 		BigDecimal fator = BigDecimal.ONE.subtract(getPercentualDesconto());

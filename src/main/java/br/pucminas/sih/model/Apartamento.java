@@ -34,6 +34,11 @@ public class Apartamento extends Quarto {
 	}
 
 	@Override
+	public TipoQuarto getTipo() {
+		return TipoQuarto.APARTAMENTO;
+	}
+
+	@Override
 	public BigDecimal calcularDiaria(boolean comAcompanhante) {
 		validarAcompanhante(comAcompanhante);
 		BigDecimal diaria = getValorBaseDiaria().add(tipoLeito.getAdicionalDiaria());

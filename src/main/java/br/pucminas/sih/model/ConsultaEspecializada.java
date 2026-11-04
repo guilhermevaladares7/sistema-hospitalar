@@ -29,6 +29,11 @@ public class ConsultaEspecializada extends Consulta {
 	}
 
 	@Override
+	public ModalidadeConsulta getModalidade() {
+		return ModalidadeConsulta.ESPECIALIZADA;
+	}
+
+	@Override
 	public void validarRealizacao() {
 		if (!profissional.atuaEm(especialidade)) {
 			throw new RegraNegocioException("O profissional " + profissional.getNome() + " não é especialista em " + especialidade + ".");

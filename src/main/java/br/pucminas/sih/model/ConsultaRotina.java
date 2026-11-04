@@ -18,6 +18,11 @@ public class ConsultaRotina extends Consulta {
 	}
 
 	@Override
+	public ModalidadeConsulta getModalidade() {
+		return ModalidadeConsulta.ROTINA;
+	}
+
+	@Override
 	public void validarRealizacao() {
 		if (!profissional.realizaConsultaDeRotina()) {
 			throw new RegraNegocioException("Consulta de rotina só pode ser feita por um clínico geral.");

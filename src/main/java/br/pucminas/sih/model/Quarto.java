@@ -67,6 +67,8 @@ public abstract class Quarto {
 		this.situacao = SituacaoQuarto.DISPONIVEL;
 	}
 
+	public abstract TipoQuarto getTipo();
+
 	public abstract int getCapacidadeMaxima();
 
 	public abstract BigDecimal calcularDiaria(boolean comAcompanhante);

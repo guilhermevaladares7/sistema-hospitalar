@@ -50,6 +50,8 @@ public abstract class Consulta extends Atendimento {
 		this.situacao = SituacaoConsulta.AGENDADA;
 	}
 
+	public abstract ModalidadeConsulta getModalidade();
+
 	protected abstract String getDescricaoModalidade();
 
 	protected void validarHorarioNaAgenda() {

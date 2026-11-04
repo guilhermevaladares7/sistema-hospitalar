@@ -31,6 +31,11 @@ public class Cirurgiao extends ProfissionalSaude {
 	}
 
 	@Override
+	public CategoriaProfissional getCategoria() {
+		return CategoriaProfissional.CIRURGIAO;
+	}
+
+	@Override
 	public boolean realizaProcedimentoCirurgico() {
 		return true;
 	}
@@ -45,6 +50,7 @@ public class Cirurgiao extends ProfissionalSaude {
 		return false;
 	}
 
+	@Override
 	public void adicionarProcedimento(ProcedimentoCirurgico procedimento) {
 		if (procedimento.getProfissional() != this) {
 			throw new RegraNegocioException("Esse procedimento é de outro cirurgião.");

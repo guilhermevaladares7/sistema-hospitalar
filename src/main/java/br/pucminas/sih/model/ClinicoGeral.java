@@ -15,6 +15,11 @@ public class ClinicoGeral extends ProfissionalSaude {
 	}
 
 	@Override
+	public CategoriaProfissional getCategoria() {
+		return CategoriaProfissional.CLINICO_GERAL;
+	}
+
+	@Override
 	public boolean podeEncaminhar() {
 		return true;
 	}

@@ -29,6 +29,11 @@ public class Uti extends Quarto {
 	}
 
 	@Override
+	public TipoQuarto getTipo() {
+		return TipoQuarto.UTI;
+	}
+
+	@Override
 	public BigDecimal calcularDiaria(boolean comAcompanhante) {
 		validarAcompanhante(comAcompanhante);
 		BigDecimal fator = BigDecimal.ONE.add(ACRESCIMO_UTI);

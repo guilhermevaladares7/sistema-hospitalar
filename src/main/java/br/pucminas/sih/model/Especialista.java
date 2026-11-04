@@ -25,6 +25,11 @@ public class Especialista extends ProfissionalSaude {
 	}
 
 	@Override
+	public CategoriaProfissional getCategoria() {
+		return CategoriaProfissional.ESPECIALISTA;
+	}
+
+	@Override
 	public boolean atuaEm(Especialidade especialidade) {
 		if (this.especialidade == especialidade) {
 			return true;

@@ -41,6 +41,8 @@ public abstract class ProfissionalSaude extends Pessoa {
 		this.registroProfissional = registroProfissional;
 	}
 
+	public abstract CategoriaProfissional getCategoria();
+
 	public boolean podeEncaminhar() {
 		return false;
 	}
@@ -87,6 +89,10 @@ public abstract class ProfissionalSaude extends Pessoa {
 		}
 		consulta.validarRealizacao();
 		consultas.add(consulta);
+	}
+
+	public void adicionarProcedimento(ProcedimentoCirurgico procedimento) {
+		throw new RegraNegocioException("Procedimento cirúrgico só pode ser feito por um cirurgião.");
 	}
 
 	public void adicionarInternacao(Internacao internacao) {
