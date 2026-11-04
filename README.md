@@ -13,8 +13,8 @@ Sistema para gerenciar pacientes, profissionais da saúde, consultas, internaç�
 
 - Java 21
 - Spring Boot 4 (Web MVC, Data JPA, Validation)
-- H2 (banco em memória, usado durante o desenvolvimento)
-- MySQL (perfil `mysql`, opcional)
+- MySQL (banco padrão)
+- H2 (perfil `h2`, para rodar sem MySQL, e nos testes)
 - JUnit 5
 
 ## Como rodar
@@ -43,12 +43,16 @@ No VS Code, com a extensão **Extension Pack for Java** (e de preferência a **S
 mvnw.cmd test
 ```
 
-### Usar MySQL em vez do H2
+Os testes usam H2 em memória e não precisam do MySQL.
 
-Ajuste usuário e senha em `src/main/resources/application-mysql.properties` e rode:
+### Banco de dados
+
+Por padrão a aplicação usa MySQL em `localhost:3306`, criando o banco `sih` se ele não existir. Usuário e senha vêm das variáveis de ambiente `DB_USER` e `DB_PASSWORD` (padrão `root`/`root`).
+
+Para rodar sem MySQL, com H2 em memória:
 
 ```bash
-mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=mysql
+mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=h2
 ```
 
 ## Estrutura
