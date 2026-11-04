@@ -3,9 +3,11 @@ package br.pucminas.sih.model;
 import br.pucminas.sih.exception.RegraNegocioException;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
@@ -14,14 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class ProfissionalSaude extends Pessoa {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "categoria", discriminatorType = DiscriminatorType.STRING)
+public abstract class ProfissionalSaude extends Pessoa {
 
 	@Column(nullable = false, unique = true)
 	private String registroProfissional;
-
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private Especialidade especialidade;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "profissional_id")
@@ -36,10 +36,17 @@ public class ProfissionalSaude extends Pessoa {
 	protected ProfissionalSaude() {
 	}
 
-	public ProfissionalSaude(String nome, String registroProfissional, Especialidade especialidade, String telefone, String email) {
+	protected ProfissionalSaude(String nome, String registroProfissional, String telefone, String email) {
 		super(nome, telefone, email);
 		this.registroProfissional = registroProfissional;
-		this.especialidade = especialidade;
+	}
+
+	public boolean podeEncaminhar() {
+		return false;
+	}
+
+	public boolean atuaEm(Especialidade especialidade) {
+		return false;
 	}
 
 	public void adicionarDisponibilidade(Disponibilidade disponibilidade) {
@@ -88,14 +95,6 @@ public class ProfissionalSaude extends Pessoa {
 
 	public String getRegistroProfissional() {
 		return registroProfissional;
-	}
-
-	public Especialidade getEspecialidade() {
-		return especialidade;
-	}
-
-	public void setEspecialidade(Especialidade especialidade) {
-		this.especialidade = especialidade;
 	}
 
 	public List<Disponibilidade> getDisponibilidades() {

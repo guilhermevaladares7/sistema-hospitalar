@@ -14,9 +14,21 @@ class Fixtures {
 		return new Paciente(nome, cpf, LocalDate.of(1991, 3, 14), "(31) 98812-3401", "paciente@email.com", endereco);
 	}
 
-	static ProfissionalSaude cardiologistaDeQuarta() {
-		ProfissionalSaude profissional = new ProfissionalSaude("Dra. Helena Duarte", "CRM-MG 45.812", Especialidade.CARDIOLOGIA, "(31) 3290-1001", "helena.duarte@sih.com.br");
+	static Especialista cardiologistaDeQuarta() {
+		Especialista profissional = new Especialista("Dra. Helena Duarte", "CRM-MG 45.812", Especialidade.CARDIOLOGIA, "(31) 3290-1001", "helena.duarte@sih.com.br");
 		profissional.adicionarDisponibilidade(new Disponibilidade(DayOfWeek.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(14, 0)));
+		return profissional;
+	}
+
+	static ClinicoGeral clinicoDeQuarta() {
+		ClinicoGeral profissional = new ClinicoGeral("Dr. Rafael Teixeira", "CRM-MG 38.207", "(31) 3290-1002", "rafael.teixeira@sih.com.br");
+		profissional.adicionarDisponibilidade(new Disponibilidade(DayOfWeek.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(12, 0)));
+		return profissional;
+	}
+
+	static Cirurgiao cirurgiaoDeQuarta() {
+		Cirurgiao profissional = new Cirurgiao("Dr. Marcos Vinícius Prado", "CRM-MG 51.334", AreaCirurgica.ORTOPEDICA, "(31) 3290-1003", "marcos.prado@sih.com.br");
+		profissional.adicionarDisponibilidade(new Disponibilidade(DayOfWeek.WEDNESDAY, LocalTime.of(13, 0), LocalTime.of(18, 0)));
 		return profissional;
 	}
 
