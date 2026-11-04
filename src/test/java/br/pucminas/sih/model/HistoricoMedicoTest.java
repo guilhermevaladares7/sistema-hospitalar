@@ -16,7 +16,7 @@ class HistoricoMedicoTest {
 	void reuneConsultasEInternacoesDoMaisRecenteParaOMaisAntigo() {
 		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
-		Quarto quarto = new Quarto("104", 1, 4);
+		Quarto quarto = Fixtures.enfermaria("104", 4);
 
 		ConsultaEspecializada antiga = Fixtures.cardiologia(ana, helena, Fixtures.QUARTA, LocalTime.of(9, 0));
 		helena.adicionarConsulta(antiga);
@@ -30,7 +30,7 @@ class HistoricoMedicoTest {
 		ana.adicionarConsulta(cancelada);
 		cancelada.cancelar();
 
-		Internacao internacao = new Internacao(ana, helena, quarto, Fixtures.QUARTA.plusWeeks(2), Fixtures.QUARTA.plusWeeks(3));
+		Internacao internacao = new Internacao(ana, helena, quarto, Fixtures.QUARTA.plusWeeks(2), Fixtures.QUARTA.plusWeeks(3), false);
 		quarto.ocupar(internacao);
 		ana.adicionarInternacao(internacao);
 
@@ -49,11 +49,11 @@ class HistoricoMedicoTest {
 	void pacienteNaoTemDuasInternacoesAtivas() {
 		Especialista helena = Fixtures.cardiologistaDeQuarta();
 		Paciente ana = Fixtures.paciente("Ana Beatriz Moreira", "123.456.789-00");
-		Quarto quarto = new Quarto("104", 1, 4);
+		Quarto quarto = Fixtures.enfermaria("104", 4);
 
-		Internacao primeira = new Internacao(ana, helena, quarto, Fixtures.QUARTA, Fixtures.QUINTA);
+		Internacao primeira = new Internacao(ana, helena, quarto, Fixtures.QUARTA, Fixtures.QUINTA, false);
 		ana.adicionarInternacao(primeira);
-		Internacao segunda = new Internacao(ana, helena, quarto, Fixtures.QUARTA, Fixtures.QUINTA);
+		Internacao segunda = new Internacao(ana, helena, quarto, Fixtures.QUARTA, Fixtures.QUINTA, false);
 
 		assertThrows(RegraNegocioException.class, segunda::validarRealizacao);
 		assertThrows(RegraNegocioException.class, () -> ana.adicionarInternacao(segunda));

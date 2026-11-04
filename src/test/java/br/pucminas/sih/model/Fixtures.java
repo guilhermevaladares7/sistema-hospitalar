@@ -1,5 +1,6 @@
 package br.pucminas.sih.model;
 
+import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,6 +25,18 @@ class Fixtures {
 		ClinicoGeral profissional = new ClinicoGeral("Dr. Rafael Teixeira", "CRM-MG 38.207", "(31) 3290-1002", "rafael.teixeira@sih.com.br");
 		profissional.adicionarDisponibilidade(new Disponibilidade(DayOfWeek.WEDNESDAY, LocalTime.of(8, 0), LocalTime.of(12, 0)));
 		return profissional;
+	}
+
+	static Enfermaria enfermaria(String numero, int leitos) {
+		return new Enfermaria(numero, 1, new BigDecimal("300.00"), false, false, leitos);
+	}
+
+	static Apartamento apartamento(String numero, TipoLeito tipoLeito, boolean possuiLeitoAcompanhante) {
+		return new Apartamento(numero, 3, new BigDecimal("500.00"), true, true, tipoLeito, possuiLeitoAcompanhante);
+	}
+
+	static Uti uti(String numero, int leitos, boolean possuiIsolamento) {
+		return new Uti(numero, 4, new BigDecimal("1000.00"), true, false, leitos, possuiIsolamento);
 	}
 
 	static ConsultaRotina rotina(Paciente paciente, ProfissionalSaude profissional, LocalDate data, LocalTime horario) {

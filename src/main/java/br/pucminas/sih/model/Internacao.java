@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -26,17 +28,28 @@ public class Internacao extends Atendimento {
 
 	private LocalDate dataEfetivaAlta;
 
+	@Column(nullable = false)
+	private boolean comAcompanhante;
+
 	protected Internacao() {
 	}
 
-	public Internacao(Paciente paciente, ProfissionalSaude profissional, Quarto quarto, LocalDate dataEntrada, LocalDate dataPrevistaAlta) {
+	public Internacao(Paciente paciente, ProfissionalSaude profissional, Quarto quarto, LocalDate dataEntrada, LocalDate dataPrevistaAlta, boolean comAcompanhante) {
 		super(paciente, profissional);
+		if (quarto == null) {
+			throw new RegraNegocioException("A internação precisa de um quarto.");
+		}
+		if (dataEntrada == null || dataPrevistaAlta == null) {
+			throw new RegraNegocioException("A internação precisa ter data de entrada e data prevista de alta.");
+		}
 		if (dataPrevistaAlta.isBefore(dataEntrada)) {
 			throw new RegraNegocioException("A data prevista de alta não pode ser antes da data de entrada.");
 		}
+		quarto.validarAcompanhante(comAcompanhante);
 		this.quarto = quarto;
 		this.dataEntrada = dataEntrada;
 		this.dataPrevistaAlta = dataPrevistaAlta;
+		this.comAcompanhante = comAcompanhante;
 	}
 
 	@Override
@@ -47,6 +60,31 @@ public class Internacao extends Atendimento {
 		if (!quarto.temVaga()) {
 			throw new RegraNegocioException("O quarto " + quarto.getNumero() + " já atingiu a capacidade máxima.");
 		}
+		quarto.validarAcompanhante(comAcompanhante);
+	}
+
+	public long getDiasCobrados() {
+		LocalDate fim;
+		if (estaAtiva()) {
+			fim = dataPrevistaAlta;
+		} else {
+			fim = dataEfetivaAlta;
+		}
+		long dias = ChronoUnit.DAYS.between(dataEntrada, fim);
+		if (dias < 1) {
+			return 1;
+		} else {
+			return dias;
+		}
+	}
+
+	public BigDecimal getValorDiaria() {
+		return quarto.calcularDiaria(comAcompanhante);
+	}
+
+	public BigDecimal getValorTotal() {
+		BigDecimal total = getValorDiaria().multiply(BigDecimal.valueOf(getDiasCobrados()));
+		return total.setScale(2, RoundingMode.HALF_UP);
 	}
 
 	public boolean estaAtiva() {
@@ -107,11 +145,18 @@ public class Internacao extends Atendimento {
 	}
 
 	public void setDataPrevistaAlta(LocalDate dataPrevistaAlta) {
+		if (dataPrevistaAlta == null || dataPrevistaAlta.isBefore(dataEntrada)) {
+			throw new RegraNegocioException("A data prevista de alta não pode ser antes da data de entrada.");
+		}
 		this.dataPrevistaAlta = dataPrevistaAlta;
 	}
 
 	public LocalDate getDataEfetivaAlta() {
 		return dataEfetivaAlta;
+	}
+
+	public boolean isComAcompanhante() {
+		return comAcompanhante;
 	}
 
 }
