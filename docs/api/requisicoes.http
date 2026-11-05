@@ -1,0 +1,452 @@
+@host = http://localhost:8080
+
+### ==================================================================
+### PACIENTES
+### ==================================================================
+
+### Cadastrar paciente (201 Created + Location)
+POST {{host}}/pacientes
+Content-Type: application/json
+
+{
+  "nome": "Ana Beatriz Moreira",
+  "cpf": "123.456.789-00",
+  "dataNascimento": "1991-03-14",
+  "telefone": "(31) 98812-3401",
+  "email": "ana.moreira@email.com",
+  "endereco": {
+    "logradouro": "Rua dos Timbiras",
+    "numero": "1200",
+    "complemento": "apto 302",
+    "bairro": "Funcionários",
+    "cidade": "Belo Horizonte",
+    "uf": "MG",
+    "cep": "30140-060"
+  }
+}
+
+### Listar pacientes
+GET {{host}}/pacientes
+
+### Buscar paciente por CPF (filtro)
+GET {{host}}/pacientes?cpf=123.456.789-00
+
+### Buscar paciente por id
+GET {{host}}/pacientes/1
+
+### Buscar histórico do paciente
+GET {{host}}/pacientes/1/historico
+
+### ERRO: paciente inexistente (404 Not Found)
+GET {{host}}/pacientes/9999
+
+### ERRO: CPF em formato inválido (400 Bad Request)
+POST {{host}}/pacientes
+Content-Type: application/json
+
+{
+  "nome": "Fulano",
+  "cpf": "12345678900",
+  "dataNascimento": "1990-01-01",
+  "telefone": "(31) 90000-0000",
+  "email": "fulano@email.com",
+  "endereco": {
+    "logradouro": "Rua A",
+    "numero": "10",
+    "bairro": "Centro",
+    "cidade": "Belo Horizonte",
+    "uf": "MG",
+    "cep": "30000-000"
+  }
+}
+
+### ERRO: CPF duplicado (400 Bad Request - regra de negócio)
+POST {{host}}/pacientes
+Content-Type: application/json
+
+{
+  "nome": "Outra Pessoa",
+  "cpf": "123.456.789-00",
+  "dataNascimento": "1990-01-01",
+  "telefone": "(31) 90000-0000",
+  "email": "outra@email.com",
+  "endereco": {
+    "logradouro": "Rua A",
+    "numero": "10",
+    "bairro": "Centro",
+    "cidade": "Belo Horizonte",
+    "uf": "MG",
+    "cep": "30000-000"
+  }
+}
+
+### ==================================================================
+### PROFISSIONAIS
+### ==================================================================
+
+### Cadastrar clínico geral (201 Created + Location)
+POST {{host}}/profissionais/clinicos-gerais
+Content-Type: application/json
+
+{
+  "nome": "Dr. Rafael Teixeira",
+  "registroProfissional": "CRM-MG 38.207",
+  "telefone": "(31) 3290-1002",
+  "email": "rafael.teixeira@sih.com.br",
+  "disponibilidades": [
+    { "diaSemana": "WEDNESDAY", "horaInicio": "08:00", "horaFim": "12:00" }
+  ]
+}
+
+### Cadastrar especialista (201 Created + Location)
+POST {{host}}/profissionais/especialistas
+Content-Type: application/json
+
+{
+  "nome": "Dra. Helena Duarte",
+  "registroProfissional": "CRM-MG 45.812",
+  "especialidade": "CARDIOLOGIA",
+  "telefone": "(31) 3290-1001",
+  "email": "helena.duarte@sih.com.br",
+  "disponibilidades": [
+    { "diaSemana": "WEDNESDAY", "horaInicio": "08:00", "horaFim": "14:00" }
+  ]
+}
+
+### Cadastrar cirurgião (201 Created + Location)
+POST {{host}}/profissionais/cirurgioes
+Content-Type: application/json
+
+{
+  "nome": "Dr. Marcos Vinícius Prado",
+  "registroProfissional": "CRM-MG 51.339",
+  "areaCirurgica": "ORTOPEDICA",
+  "telefone": "(31) 3290-1003",
+  "email": "marcos.prado@sih.com.br",
+  "disponibilidades": [
+    { "diaSemana": "THURSDAY", "horaInicio": "13:00", "horaFim": "18:00" }
+  ]
+}
+
+### Listar profissionais
+GET {{host}}/profissionais
+
+### Listar por especialidade (filtro)
+GET {{host}}/profissionais?especialidade=CARDIOLOGIA
+
+### Listar especialistas disponíveis em uma data/horário (filtro)
+GET {{host}}/profissionais?especialidade=CARDIOLOGIA&data=2026-11-11&horario=10:00
+
+### Buscar profissional por id
+GET {{host}}/profissionais/1
+
+### ERRO: registro duplicado (400 Bad Request - regra de negócio)
+POST {{host}}/profissionais/especialistas
+Content-Type: application/json
+
+{
+  "nome": "Dra. Clone",
+  "registroProfissional": "CRM-MG 45.812",
+  "especialidade": "PEDIATRIA",
+  "telefone": "(31) 3290-0000",
+  "email": "clone@sih.com.br",
+  "disponibilidades": []
+}
+
+### ==================================================================
+### QUARTOS
+### ==================================================================
+
+### Cadastrar enfermaria (201 Created + Location)
+POST {{host}}/quartos/enfermarias
+Content-Type: application/json
+
+{
+  "numero": "201",
+  "andar": 2,
+  "valorBaseDiaria": 180.00,
+  "possuiArCondicionado": true,
+  "possuiBanheiroPrivativo": true,
+  "quantidadeLeitos": 4
+}
+
+### Cadastrar apartamento (201 Created + Location)
+POST {{host}}/quartos/apartamentos
+Content-Type: application/json
+
+{
+  "numero": "301",
+  "andar": 3,
+  "valorBaseDiaria": 520.00,
+  "possuiArCondicionado": true,
+  "possuiBanheiroPrivativo": true,
+  "tipoLeito": "ELETRICO",
+  "possuiLeitoAcompanhante": true
+}
+
+### Cadastrar UTI (201 Created + Location)
+POST {{host}}/quartos/utis
+Content-Type: application/json
+
+{
+  "numero": "401",
+  "andar": 4,
+  "valorBaseDiaria": 1000.00,
+  "possuiArCondicionado": true,
+  "possuiBanheiroPrivativo": false,
+  "quantidadeLeitos": 2,
+  "possuiIsolamento": true
+}
+
+### Listar quartos
+GET {{host}}/quartos
+
+### Listar quartos disponíveis (filtro)
+GET {{host}}/quartos?disponiveis=true
+
+### Buscar quarto por id
+GET {{host}}/quartos/1
+
+### ERRO: valor da diária inválido (400 Bad Request)
+POST {{host}}/quartos/enfermarias
+Content-Type: application/json
+
+{
+  "numero": "202",
+  "andar": 2,
+  "valorBaseDiaria": -10.00,
+  "possuiArCondicionado": false,
+  "possuiBanheiroPrivativo": false,
+  "quantidadeLeitos": 2
+}
+
+### ERRO: número duplicado (400 Bad Request - regra de negócio)
+POST {{host}}/quartos/enfermarias
+Content-Type: application/json
+
+{
+  "numero": "201",
+  "andar": 2,
+  "valorBaseDiaria": 180.00,
+  "possuiArCondicionado": true,
+  "possuiBanheiroPrivativo": true,
+  "quantidadeLeitos": 4
+}
+
+### ==================================================================
+### CONSULTAS
+### ==================================================================
+### Ajuste a data para uma próxima quarta-feira (dentro da disponibilidade).
+
+### Agendar consulta de rotina (201 Created + Location)
+POST {{host}}/consultas/rotina
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "profissionalId": 1,
+  "data": "2026-11-11",
+  "horario": "09:00",
+  "motivo": "Dor de cabeça recorrente"
+}
+
+### Agendar consulta especializada (201 Created + Location)
+POST {{host}}/consultas/especializada
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "profissionalId": 2,
+  "especialidade": "CARDIOLOGIA",
+  "data": "2026-11-11",
+  "horario": "10:00",
+  "motivo": "Avaliação cardiológica"
+}
+
+### Listar consultas
+GET {{host}}/consultas
+
+### Listar consultas por data (filtro)
+GET {{host}}/consultas?data=2026-11-11
+
+### Buscar consulta por id
+GET {{host}}/consultas/1
+
+### Confirmar consulta (PATCH)
+PATCH {{host}}/consultas/1/confirmar
+
+### Iniciar consulta (PATCH)
+PATCH {{host}}/consultas/1/iniciar
+
+### Concluir consulta (PATCH)
+PATCH {{host}}/consultas/1/concluir
+Content-Type: application/json
+
+{
+  "observacoes": "Paciente estável, retorno em 30 dias."
+}
+
+### Cancelar consulta (PATCH)
+PATCH {{host}}/consultas/2/cancelar
+
+### Registrar não comparecimento (PATCH)
+PATCH {{host}}/consultas/2/nao-compareceu
+
+### Encaminhar a partir de consulta de rotina concluída
+POST {{host}}/consultas/1/encaminhamentos
+Content-Type: application/json
+
+{
+  "especialidadeDestino": "CARDIOLOGIA",
+  "motivo": "Investigar sopro cardíaco"
+}
+
+### ERRO: agendar fora da disponibilidade (400 Bad Request - regra de negócio)
+POST {{host}}/consultas/rotina
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "profissionalId": 1,
+  "data": "2026-11-12",
+  "horario": "09:00",
+  "motivo": "Fora da agenda"
+}
+
+### ==================================================================
+### INTERNAÇÕES
+### ==================================================================
+
+### Registrar internação (201 Created + Location)
+POST {{host}}/internacoes
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "profissionalId": 2,
+  "quartoId": 2,
+  "dataEntrada": "2026-11-05",
+  "dataPrevistaAlta": "2026-11-10",
+  "comAcompanhante": true
+}
+
+### Listar internações
+GET {{host}}/internacoes
+
+### Listar internações ativas (filtro)
+GET {{host}}/internacoes?ativas=true
+
+### Buscar internação por id
+GET {{host}}/internacoes/1
+
+### Dar alta (PATCH)
+PATCH {{host}}/internacoes/1/alta
+Content-Type: application/json
+
+{
+  "dataAlta": "2026-11-08"
+}
+
+### ERRO: data prevista de alta antes da entrada (400 Bad Request - regra de negócio)
+POST {{host}}/internacoes
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "profissionalId": 2,
+  "quartoId": 2,
+  "dataEntrada": "2026-11-05",
+  "dataPrevistaAlta": "2026-11-01",
+  "comAcompanhante": false
+}
+
+### ==================================================================
+### EMERGÊNCIAS
+### ==================================================================
+
+### Abrir atendimento de emergência (201 Created + Location)
+POST {{host}}/emergencias
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "profissionalId": 1,
+  "prioridade": "ALTA"
+}
+
+### Listar fila de espera por prioridade (filtro)
+GET {{host}}/emergencias?aguardando=true
+
+### Listar por situação (filtro)
+GET {{host}}/emergencias?situacao=EM_ATENDIMENTO
+
+### Buscar emergência por id
+GET {{host}}/emergencias/1
+
+### Iniciar atendimento (PATCH)
+PATCH {{host}}/emergencias/1/iniciar
+
+### Concluir atendimento (PATCH)
+PATCH {{host}}/emergencias/1/concluir
+Content-Type: application/json
+
+{
+  "observacoes": "Paciente estabilizado e liberado."
+}
+
+### ERRO: concluir sem iniciar (400 Bad Request - regra de negócio)
+PATCH {{host}}/emergencias/1/concluir
+Content-Type: application/json
+
+{
+  "observacoes": "Tentativa inválida"
+}
+
+### ==================================================================
+### PROCEDIMENTOS CIRÚRGICOS
+### ==================================================================
+
+### Agendar procedimento (201 Created + Location)
+POST {{host}}/procedimentos
+Content-Type: application/json
+
+{
+  "pacienteId": 1,
+  "cirurgiaoId": 3,
+  "descricao": "Artroscopia de joelho",
+  "tipoCirurgia": "ELETIVA",
+  "dataHoraPrevista": "2026-11-12T13:30:00",
+  "observacoesPreOperatorias": "Jejum de 8 horas."
+}
+
+### Listar procedimentos por situação (filtro)
+GET {{host}}/procedimentos?situacao=AGENDADO
+
+### Listar procedimentos realizados por um cirurgião (filtro)
+GET {{host}}/procedimentos?cirurgiaoId=3
+
+### Buscar procedimento por id
+GET {{host}}/procedimentos/1
+
+### Iniciar procedimento (PATCH)
+PATCH {{host}}/procedimentos/1/iniciar
+Content-Type: application/json
+
+{
+  "dataHoraInicio": "2026-11-12T13:40:00"
+}
+
+### Concluir procedimento (PATCH)
+PATCH {{host}}/procedimentos/1/concluir
+Content-Type: application/json
+
+{
+  "dataHoraFim": "2026-11-12T15:10:00",
+  "observacoesPosOperatorias": "Procedimento sem intercorrências."
+}
+
+### Cancelar procedimento (PATCH)
+PATCH {{host}}/procedimentos/1/cancelar
+
+### ERRO: procedimento inexistente (404 Not Found)
+GET {{host}}/procedimentos/9999
