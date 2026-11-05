@@ -38,7 +38,7 @@ No Linux ou macOS, use `./mvnw spring-boot:run`.
 Para testar rapidamente, sem instalar nada além do JDK. Os dados ficam em memória e somem ao fechar a aplicação.
 
 ```bash
-.\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=h2
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.profiles=h2"
 ```
 
 A aplicação sobe em [http://localhost:8080](http://localhost:8080).

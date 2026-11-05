@@ -12,6 +12,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -85,7 +86,7 @@ public class ConsultaController {
 	@PostMapping("/{id}/encaminhamentos")
 	public ResponseEntity<EncaminhamentoResponse> encaminhar(@PathVariable Long id, @RequestBody @Valid EncaminhamentoRequest request) {
 		EncaminhamentoResponse encaminhamento = consultaService.encaminhar(id, request);
-		return ResponseEntity.ok(encaminhamento);
+		return ResponseEntity.status(HttpStatus.CREATED).body(encaminhamento);
 	}
 
 	private ResponseEntity<ConsultaResponse> criada(ConsultaResponse consulta, UriComponentsBuilder uriBuilder) {
