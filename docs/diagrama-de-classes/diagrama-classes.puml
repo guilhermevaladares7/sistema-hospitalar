@@ -1,12 +1,12 @@
 @startuml diagrama-classes
-title Sistema de Informação Hospitalar — Diagrama de Classes (Modelo de Domínio)
+title Sistema de Informação Hospitalar — Diagrama de Classes (Modelo de Domínio) — Sprint 2
 
 skinparam classAttributeIconSize 0
 skinparam shadowing false
 skinparam defaultFontName Arial
 skinparam defaultFontSize 12
 skinparam linetype ortho
-skinparam nodesep 60
+skinparam nodesep 55
 skinparam ranksep 70
 skinparam class {
   BackgroundColor #FFFFFF
@@ -24,6 +24,8 @@ skinparam note {
 
 package model {
 
+  ' ===================== PESSOAS =====================
+
   abstract class Pessoa {
     #id : Long
     #nome : String
@@ -35,16 +37,16 @@ package model {
     -cpf : String
     -dataNascimento : LocalDate
     -endereco : Endereco
-    -consultas : List<Consulta>
-    -internacoes : List<Internacao>
     +getIdade() : int
     +adicionarConsulta(c : Consulta) : void
     +adicionarInternacao(i : Internacao) : void
+    +adicionarAtendimentoEmergencia(a : AtendimentoEmergencia) : void
+    +adicionarProcedimento(p : ProcedimentoCirurgico) : void
     +possuiInternacaoAtiva() : boolean
     +getHistorico() : HistoricoMedico
   }
 
-  class Endereco {
+  class Endereco <<embeddable>> {
     -logradouro : String
     -numero : String
     -complemento : String
@@ -55,18 +57,40 @@ package model {
     +getEnderecoCompleto() : String
   }
 
-  class ProfissionalSaude {
+  abstract class ProfissionalSaude {
     -registroProfissional : String
-    -especialidade : Especialidade
-    -disponibilidades : List<Disponibilidade>
-    -consultas : List<Consulta>
-    -internacoes : List<Internacao>
+    +{abstract} getCategoria() : CategoriaProfissional
+    +podeEncaminhar() : boolean
+    +atuaEm(e : Especialidade) : boolean
+    +realizaConsultaDeRotina() : boolean
+    +realizaProcedimentoCirurgico() : boolean
+    +encaminhar(c : ConsultaRotina, dest : Especialidade, motivo : String, data : LocalDate) : Encaminhamento
     +adicionarDisponibilidade(d : Disponibilidade) : void
     +adicionarConsulta(c : Consulta) : void
-    +adicionarInternacao(i : Internacao) : void
-    +atendeNoHorario(data : LocalDate, horario : LocalTime) : boolean
-    +possuiConsultaNoHorario(data : LocalDate, horario : LocalTime) : boolean
+    +adicionarProcedimento(p : ProcedimentoCirurgico) : void
     +estaDisponivel(data : LocalDate, horario : LocalTime) : boolean
+    +possuiOutraConsultaNoHorario(c : Consulta) : boolean
+    +possuiOutroProcedimentoNoHorario(p : ProcedimentoCirurgico) : boolean
+  }
+
+  class ClinicoGeral {
+    +getCategoria() : CategoriaProfissional
+    +podeEncaminhar() : boolean
+    +realizaConsultaDeRotina() : boolean
+  }
+
+  class Especialista {
+    -especialidade : Especialidade
+    +getCategoria() : CategoriaProfissional
+    +atuaEm(e : Especialidade) : boolean
+  }
+
+  class Cirurgiao {
+    -areaCirurgica : AreaCirurgica
+    +getCategoria() : CategoriaProfissional
+    +realizaProcedimentoCirurgico() : boolean
+    +adicionarProcedimento(p : ProcedimentoCirurgico) : void
+    +getProcedimentosRealizados() : List<ProcedimentoCirurgico>
   }
 
   class Disponibilidade {
@@ -77,63 +101,156 @@ package model {
     +contem(data : LocalDate, horario : LocalTime) : boolean
   }
 
+  ' ===================== ATENDIMENTOS =====================
+
   abstract class Atendimento {
     #id : Long
-    #paciente : Paciente
-    #profissional : ProfissionalSaude
     #observacoes : String
     +registrarObservacao(texto : String) : void
+    +{abstract} validarRealizacao() : void
     +{abstract} getDataReferencia() : LocalDate
     +{abstract} getResumo() : String
   }
 
-  class Consulta {
+  abstract class Consulta {
     -data : LocalDate
     -horario : LocalTime
     -motivo : String
-    -status : StatusConsulta
-    +realizar(observacoes : String) : void
+    -situacao : SituacaoConsulta
+    +{abstract} getModalidade() : ModalidadeConsulta
+    #validarHorarioNaAgenda() : void
+    +confirmar() : void
+    +iniciar() : void
+    +concluir(observacoes : String) : void
     +cancelar() : void
+    +registrarNaoComparecimento() : void
     +conflitaCom(data : LocalDate, horario : LocalTime) : boolean
-    +getDataReferencia() : LocalDate
-    +getResumo() : String
+  }
+
+  class ConsultaRotina {
+    +getModalidade() : ModalidadeConsulta
+    +validarRealizacao() : void
+  }
+
+  class ConsultaEspecializada {
+    -especialidade : Especialidade
+    +getModalidade() : ModalidadeConsulta
+    +validarRealizacao() : void
+  }
+
+  class AtendimentoEmergencia {
+    -prioridade : Prioridade
+    -situacao : SituacaoEmergencia
+    -dataHoraChegada : LocalDateTime
+    +{static} ORDEM_DE_ATENDIMENTO : Comparator
+    +validarRealizacao() : void
+    +iniciar() : void
+    +concluir(observacoes : String) : void
+    +aguardaAvaliacao() : boolean
+  }
+
+  class ProcedimentoCirurgico {
+    -descricao : String
+    -tipoCirurgia : TipoCirurgia
+    -observacoesPreOperatorias : String
+    -observacoesPosOperatorias : String
+    -dataHoraPrevista : LocalDateTime
+    -dataHoraInicio : LocalDateTime
+    -dataHoraFim : LocalDateTime
+    -situacao : SituacaoProcedimento
+    +validarRealizacao() : void
+    +iniciar(inicio : LocalDateTime) : void
+    +concluir(fim : LocalDateTime, obs : String) : void
+    +cancelar() : void
+    +foiRealizado() : boolean
+    +conflitaCom(dataHora : LocalDateTime) : boolean
   }
 
   class Internacao {
-    -quarto : Quarto
     -dataEntrada : LocalDate
     -dataPrevistaAlta : LocalDate
     -dataEfetivaAlta : LocalDate
+    -comAcompanhante : boolean
+    +validarRealizacao() : void
     +estaAtiva() : boolean
     +darAlta(data : LocalDate) : void
-    +getDiasInternado() : long
-    +getDataReferencia() : LocalDate
-    +getResumo() : String
+    +getDiasCobrados() : long
+    +getValorDiaria() : BigDecimal
+    +getValorTotal() : BigDecimal
   }
 
-  class Quarto {
+  class Encaminhamento {
+    -id : Long
+    -especialidadeDestino : Especialidade
+    -motivo : String
+    -data : LocalDate
+  }
+
+  ' ===================== QUARTOS =====================
+
+  abstract class Quarto {
     -id : Long
     -numero : String
     -andar : int
-    -capacidadeMaxima : int
+    -valorBaseDiaria : BigDecimal
+    -possuiArCondicionado : boolean
+    -possuiBanheiroPrivativo : boolean
     -situacao : SituacaoQuarto
-    -internacoes : List<Internacao>
+    +{abstract} getTipo() : TipoQuarto
+    +{abstract} getCapacidadeMaxima() : int
+    +{abstract} calcularDiaria(comAcompanhante : boolean) : BigDecimal
+    +{abstract} permiteAcompanhante() : boolean
+    +validarAcompanhante(comAcompanhante : boolean) : void
     +getOcupacaoAtual() : int
     +temVaga() : boolean
     +ocupar(i : Internacao) : void
     +liberar(i : Internacao) : void
-    -atualizarSituacao() : void
   }
 
+  class Enfermaria {
+    -quantidadeLeitos : int
+    +getTipo() : TipoQuarto
+    +calcularDiaria(comAcompanhante : boolean) : BigDecimal
+    +permiteAcompanhante() : boolean
+    +getCapacidadeMaxima() : int
+    +getPercentualDesconto() : BigDecimal
+  }
+
+  class Apartamento {
+    -tipoLeito : TipoLeito
+    -possuiLeitoAcompanhante : boolean
+    +getTipo() : TipoQuarto
+    +calcularDiaria(comAcompanhante : boolean) : BigDecimal
+    +permiteAcompanhante() : boolean
+    +getCapacidadeMaxima() : int
+  }
+
+  class Uti {
+    -quantidadeLeitos : int
+    -possuiIsolamento : boolean
+    +getTipo() : TipoQuarto
+    +calcularDiaria(comAcompanhante : boolean) : BigDecimal
+    +permiteAcompanhante() : boolean
+    +getCapacidadeMaxima() : int
+  }
+
+  ' ===================== HISTÓRICO =====================
+
   class HistoricoMedico {
-    -paciente : Paciente
     +getAtendimentos() : List<Atendimento>
-    +getConsultasRealizadas() : List<Consulta>
+    +getConsultasConcluidas() : List<Consulta>
     +getInternacoes() : List<Internacao>
   }
 
+  ' ===================== ENUMS =====================
+
+  enum CategoriaProfissional {
+    CLINICO_GERAL
+    ESPECIALISTA
+    CIRURGIAO
+  }
+
   enum Especialidade {
-    CLINICA_GERAL
     CARDIOLOGIA
     PEDIATRIA
     ORTOPEDIA
@@ -142,10 +259,77 @@ package model {
     ENFERMAGEM
   }
 
-  enum StatusConsulta {
+  enum AreaCirurgica {
+    GERAL
+    CARDIOVASCULAR
+    ORTOPEDICA
+    NEUROLOGICA
+    PEDIATRICA
+    PLASTICA
+  }
+
+  enum ModalidadeConsulta {
+    ROTINA
+    ESPECIALIZADA
+  }
+
+  enum SituacaoConsulta {
     AGENDADA
-    REALIZADA
+    CONFIRMADA
+    EM_ATENDIMENTO
+    CONCLUIDA
     CANCELADA
+    NAO_COMPARECEU
+    --
+    +podeMudarPara(nova) : boolean
+    +validarMudancaPara(nova) : void
+    +ocupaHorario() : boolean
+  }
+
+  enum SituacaoEmergencia {
+    AGUARDANDO_AVALIACAO
+    EM_ATENDIMENTO
+    CONCLUIDO
+    --
+    +podeMudarPara(nova) : boolean
+    +validarMudancaPara(nova) : void
+  }
+
+  enum SituacaoProcedimento {
+    AGENDADO
+    EM_ANDAMENTO
+    CONCLUIDO
+    CANCELADO
+    --
+    +podeMudarPara(nova) : boolean
+    +validarMudancaPara(nova) : void
+    +ocupaHorario() : boolean
+  }
+
+  enum Prioridade {
+    BAIXA
+    MODERADA
+    ALTA
+    CRITICA
+    --
+    +ehMaisUrgenteQue(outra) : boolean
+  }
+
+  enum TipoQuarto {
+    ENFERMARIA
+    APARTAMENTO
+    UTI
+  }
+
+  enum TipoLeito {
+    PADRAO
+    ELETRICO
+  }
+
+  enum TipoCirurgia {
+    ELETIVA
+    URGENCIA
+    EMERGENCIA
   }
 
   enum SituacaoQuarto {
@@ -153,36 +337,74 @@ package model {
     OCUPADO
   }
 
+  ' ===================== HERANÇAS =====================
+
   Pessoa <|-- Paciente
   Pessoa <|-- ProfissionalSaude
+  ProfissionalSaude <|-- ClinicoGeral
+  ProfissionalSaude <|-- Especialista
+  ProfissionalSaude <|-- Cirurgiao
 
   Atendimento <|-- Consulta
   Atendimento <|-- Internacao
+  Atendimento <|-- AtendimentoEmergencia
+  Atendimento <|-- ProcedimentoCirurgico
+  Consulta <|-- ConsultaRotina
+  Consulta <|-- ConsultaEspecializada
+
+  Quarto <|-- Enfermaria
+  Quarto <|-- Apartamento
+  Quarto <|-- Uti
+
+  ' ===================== ASSOCIAÇÕES =====================
 
   Paciente "1" *-- "1" Endereco
   ProfissionalSaude "1" *-- "0..*" Disponibilidade
 
-  Paciente "1" -- "0..*" Consulta : possui >
-  Paciente "1" -- "0..*" Internacao : possui >
-  ProfissionalSaude "1" -- "0..*" Consulta : responsável >
-  ProfissionalSaude "1" -- "0..*" Internacao : responsável >
-  Quarto "1" -- "0..*" Internacao : abriga >
+  Atendimento "0..*" --> "1" Paciente : paciente >
+  Atendimento "0..*" --> "1" ProfissionalSaude : profissional >
+  Internacao "0..*" --> "1" Quarto : alojado em >
+  Cirurgiao "1" -- "0..*" ProcedimentoCirurgico : realiza >
+
+  Encaminhamento "0..*" --> "1" Paciente
+  Encaminhamento "0..*" --> "1" ProfissionalSaude : clínico >
+  Encaminhamento "0..*" --> "1" ConsultaRotina : origem >
 
   HistoricoMedico "0..1" --> "1" Paciente : referente a >
   HistoricoMedico ..> Atendimento : <<usa>>
 
-  ProfissionalSaude --> Especialidade
-  Consulta --> StatusConsulta
+  ' ===================== DEPENDÊNCIAS DE ENUM =====================
+
+  ProfissionalSaude ..> CategoriaProfissional
+  Especialista --> Especialidade
+  Cirurgiao --> AreaCirurgica
+  Consulta --> SituacaoConsulta
+  Consulta ..> ModalidadeConsulta
+  ConsultaEspecializada --> Especialidade
+  AtendimentoEmergencia --> Prioridade
+  AtendimentoEmergencia --> SituacaoEmergencia
+  ProcedimentoCirurgico --> TipoCirurgia
+  ProcedimentoCirurgico --> SituacaoProcedimento
+  Encaminhamento --> Especialidade
   Quarto --> SituacaoQuarto
+  Quarto ..> TipoQuarto
+  Apartamento --> TipoLeito
 
   note top of Pessoa
     Getters e setters omitidos
-    em todas as classes
+    em todas as classes.
   end note
 
   note top of HistoricoMedico
-    Não é persistido: montado sob demanda
-    a partir das consultas e internações do paciente
+    Não é persistido: montado sob demanda a
+    partir das consultas, internações, emergências
+    e procedimentos do paciente.
+  end note
+
+  note bottom of Atendimento
+    @MappedSuperclass. Cada subclasse implementa
+    validarRealizacao() com as regras da sua
+    modalidade (Template Method).
   end note
 }
 
