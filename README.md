@@ -60,7 +60,8 @@ src/main/java/br/pucminas/sih
 ├── repository     acesso ao banco com Spring Data JPA
 ├── model          classes de domínio e regras de negócio
 ├── dto            formato do JSON de entrada (Request) e de saída (Response)
-└── exception      exceções e tratamento global de erros
+├── exception      exceções e tratamento global de erros
+└── config         carga de dados de exemplo no perfil h2 (CommandLineRunner)
 src/main/resources
 ├── static                       telas do front-end (Sprint 1)
 ├── application.properties       configuração do MySQL
@@ -68,6 +69,7 @@ src/main/resources
 src/test                         testes de domínio, repositórios, serviços e validação
 docs
 ├── SPRINT2_TPPM.pdf             enunciado da Sprint 2
+├── api/requisicoes.http         exemplos de todas as requisições (REST Client)
 ├── diagrama-de-classes
 └── cartoes-crc
 ```
@@ -168,7 +170,91 @@ O `RestExceptionHandler` (`@RestControllerAdvice`) converte as exceções em res
 
 ## Endpoints
 
-Os endpoints obrigatórios da Sprint 2 são `/pacientes`, `/profissionais`, `/consultas`, `/internacoes` e `/quartos`. Os controllers REST estão em desenvolvimento, e esta seção será completada com a lista de rotas quando eles forem concluídos.
+A API usa POST para criar (responde `201 Created` com o cabeçalho `Location`), GET para listar e buscar, e PATCH para as mudanças de situação (confirmar, iniciar, concluir, cancelar, dar alta etc.). Há exemplos prontos de todas as requisições, incluindo casos de erro, em [`docs/api/requisicoes.http`](docs/api/requisicoes.http) (extensão REST Client do VS Code).
+
+### Pacientes
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/pacientes` | Cadastra um paciente |
+| GET | `/pacientes` | Lista os pacientes |
+| GET | `/pacientes?cpf=000.000.000-00` | Busca por CPF |
+| GET | `/pacientes/{id}` | Busca por id |
+| GET | `/pacientes/{id}/historico` | Histórico de atendimentos e encaminhamentos |
+
+### Profissionais
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/profissionais/clinicos-gerais` | Cadastra um clínico geral |
+| POST | `/profissionais/especialistas` | Cadastra um especialista |
+| POST | `/profissionais/cirurgioes` | Cadastra um cirurgião |
+| GET | `/profissionais` | Lista todos |
+| GET | `/profissionais?especialidade=CARDIOLOGIA` | Lista especialistas de uma área |
+| GET | `/profissionais?especialidade=CARDIOLOGIA&data=2026-11-11&horario=10:00` | Especialistas disponíveis nesse dia e horário |
+| GET | `/profissionais/{id}` | Busca por id |
+
+### Consultas
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/consultas/rotina` | Agenda uma consulta de rotina |
+| POST | `/consultas/especializada` | Agenda uma consulta especializada |
+| GET | `/consultas` | Lista as consultas |
+| GET | `/consultas?data=2026-11-11` | Lista por data |
+| GET | `/consultas/{id}` | Busca por id |
+| PATCH | `/consultas/{id}/confirmar` | Confirma |
+| PATCH | `/consultas/{id}/iniciar` | Inicia o atendimento |
+| PATCH | `/consultas/{id}/concluir` | Conclui (com observações) |
+| PATCH | `/consultas/{id}/cancelar` | Cancela |
+| PATCH | `/consultas/{id}/nao-compareceu` | Registra não comparecimento |
+| POST | `/consultas/{id}/encaminhamentos` | Encaminha a partir de uma consulta de rotina concluída |
+
+### Emergências
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/emergencias` | Abre um atendimento de emergência |
+| GET | `/emergencias?aguardando=true` | Fila de espera ordenada por prioridade e chegada |
+| GET | `/emergencias?situacao=EM_ATENDIMENTO` | Lista por situação |
+| GET | `/emergencias/{id}` | Busca por id |
+| PATCH | `/emergencias/{id}/iniciar` | Inicia o atendimento |
+| PATCH | `/emergencias/{id}/concluir` | Conclui (com observações) |
+
+### Procedimentos cirúrgicos
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/procedimentos` | Agenda um procedimento |
+| GET | `/procedimentos?situacao=AGENDADO` | Lista por situação |
+| GET | `/procedimentos?cirurgiaoId={id}` | Procedimentos realizados por um cirurgião |
+| GET | `/procedimentos/{id}` | Busca por id |
+| PATCH | `/procedimentos/{id}/iniciar` | Inicia (com data e hora de início) |
+| PATCH | `/procedimentos/{id}/concluir` | Conclui (com data e hora de fim e observações) |
+| PATCH | `/procedimentos/{id}/cancelar` | Cancela |
+
+### Internações
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/internacoes` | Registra uma internação |
+| GET | `/internacoes` | Lista as internações |
+| GET | `/internacoes?ativas=true` | Lista só as ativas |
+| GET | `/internacoes/{id}` | Busca por id |
+| PATCH | `/internacoes/{id}/alta` | Dá alta (com a data da alta) |
+
+### Quartos
+
+| Método | Rota | Descrição |
+|---|---|---|
+| POST | `/quartos/enfermarias` | Cadastra uma enfermaria |
+| POST | `/quartos/apartamentos` | Cadastra um apartamento |
+| POST | `/quartos/utis` | Cadastra uma UTI |
+| GET | `/quartos` | Lista os quartos |
+| GET | `/quartos?disponiveis=true` | Lista só os disponíveis |
+| GET | `/quartos/{id}` | Busca por id |
+
+Ao subir com o perfil `h2`, um `CommandLineRunner` cadastra dados de exemplo quando o banco está vazio (fica desligado nos testes e no MySQL).
 
 ## Documentação
 
